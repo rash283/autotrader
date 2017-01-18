@@ -8,7 +8,9 @@ from collections import defaultdict
 car_list = defaultdict(dict)
 cycles = 0
 driver = webdriver.PhantomJS()
-url = 'http://www.autotrader.com/cars-for-sale/cars+under+15000/Toyota/Corolla/?zip=40056&startYear=2012&maxMileage=75000&numRecords=100&endYear=2016&modelCodeList=COROL&makeCodeList=TOYOTA&mpgRanges=40-MPG%2C31-40MPG&sortBy=derivedpriceASC&maxPrice=13000&firstRecord=0&searchRadius=100'
+url = 'http://www.autotrader.com/cars-for-sale/cars+under+15000/Toyota/Corolla/?zip=40056&startYear=2012&maxMileage' \
+      '=75000&numRecords=100&endYear=2016&modelCodeList=COROL&makeCodeList=TOYOTA&mpgRanges=40-MPG%2C31-40MPG&sortBy' \
+      '=derivedpriceASC&maxPrice=13000&firstRecord=0&searchRadius=100 '
 driver.get(url=url)
 soup = BeautifulSoup(driver.page_source, "lxml")
 results = int(soup.find(attrs={"data-qaid": "cntnr-resultTotal"}).text)
@@ -26,12 +28,6 @@ for index in range(1, cyclesRequired + 1):
     car_list.update(processed_page[1])
     if index < cyclesRequired:
         page_buttons.get(str(index + 1)).click()
-csv_columns = ['Title', 'Price', 'Mileage', 'Color', 'ID', 'Link']
-currentPath = os.getcwd()
-csv_file = currentPath + "/test.csv"
-with open(csv_file, 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
-    writer.writeheader()
-    for data in car_list:
-        writer.writerow(data)
+
+
 print('The End')
