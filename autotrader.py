@@ -28,6 +28,14 @@ for index in range(1, cyclesRequired + 1):
     car_list.update(processed_page[1])
     if index < cyclesRequired:
         page_buttons.get(str(index + 1)).click()
+current_dir = os.getcwd()
+csvfile = current_dir + "/test.csv"
+with open(csvfile,'a+') as car_csv:
+    fieldnames=['Title','Price','Mileage','Color','Link']
+    writer = csv.DictWriter(car_csv,fieldnames=fieldnames)
+    writer.writeheader()
+    for k,v in car_list.items():
+        writer.writerow(v)
 
 
 print('The End')
